@@ -1,0 +1,384 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package qasproject;
+
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.print.PrinterException;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import net.proteanit.sql.DbUtils;
+
+/**
+ *
+ * @author tahab
+ */
+public class viewSuppliers extends javax.swing.JFrame {
+
+    /**
+     * Creates new form viewItemCode
+     */
+    
+    Connection conn=null;
+    
+    public viewSuppliers() {
+        initComponents();
+        this.setTitle("View Suppliers");
+        
+        conn=DBconnection.connectDb();
+        
+        this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        
+        this.addWindowListener(new WindowAdapter() {
+            
+            public void windowClosing(WindowEvent e) {
+            int confirmed = JOptionPane.showConfirmDialog(null, 
+            "Do you want to close the program?", "Exit Program Message Box",
+            JOptionPane.YES_NO_OPTION);
+
+        if (confirmed == JOptionPane.YES_OPTION) {
+          //dispose();
+          String role=QASProject.userrole;
+        
+                    if(role.equals("Admin"))
+                    {
+                        adminHome obj=new adminHome();
+                        obj.setVisible(true);
+                        dispose();
+
+                    }
+                    
+                    //manager
+                    else if(role.equals("Manager"))
+                    {
+                        ManagerHome obj=new ManagerHome();
+                        obj.setVisible(true);
+                        dispose();
+
+                    }
+                    
+                     //gateKeeper
+                    else if(role.equals("Gate Keeper"))
+                    {
+                        gateKeeperHome obj=new gateKeeperHome();
+                        obj.setVisible(true);
+                        dispose();
+
+                    }
+                    //store Incharge
+                    else if(role.equals("Store Incharge"))
+                    {
+                        storeInchargeHome obj=new storeInchargeHome();
+                        obj.setVisible(true);
+                        dispose();
+
+                    }
+                    
+                    //finished goods store incharge
+                    else if(role.equals("Warehouse Incharge"))
+                    {
+                        FinishedStoreInchargeHome obj=new FinishedStoreInchargeHome();
+                        obj.setVisible(true);
+                        dispose();
+                    }
+        }
+  }
+});
+        
+    }
+
+    ///printing
+//    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+//	LocalDate localDate = LocalDate.now();
+//	System.out.println(dtf.format(localDate));
+//        
+//        int totalChars=25;
+//        
+//        String finalPrint="";
+//        String header="                                                 Al Makkah Fiber ;;                                                   Suppliers List ;";
+//        //String serial="Serial Number : "+itemTable.getValueAt(0, 0)+";";
+//        String currDate="Date : "+dtf.format(localDate)+";";
+//        //String supplier="Supplier : "+itemTable.getValueAt(0, 2)+";";
+//        //String pur="Purchaser : "+itemTable.getValueAt(0, 3)+";";
+//        String line="; -------------------------------------------------------------------------------------------------------;";
+//        String tableHeading="Supplier Code             Name             Address                              Contact Number";
+//
+//        //printArea.append();
+//        int rows=itemTable.getRowCount();
+//
+//        String table="";
+//
+//        for(int i=0;i<rows;i++)
+//        {
+//            table=table+ itemTable.getValueAt(i, 3).toString().length()+"                        "+itemTable.getValueAt(i, 2)+"                    "+itemTable.getValueAt(i, 1)+"                    "+itemTable.getValueAt(i, 0)+";";
+//
+//        }
+//
+//        String approv=";;"+"Prepared By :"+QASProject.userName;
+//
+//        finalPrint=finalPrint+header+currDate+line+tableHeading+line+table+line+approv;
+//        printNow p=new printNow();
+//        header=header+table;
+//        printNow.printCard(finalPrint);
+//
+//        System.out.println(itemTable.getRowCount());
+    
+    
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
+     */
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+
+        jPanel1 = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        itemTable = new javax.swing.JTable();
+        viewItems = new javax.swing.JButton();
+        Logout = new javax.swing.JButton();
+        Home = new javax.swing.JButton();
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+
+        itemTable.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        itemTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        itemTable.setRowHeight(20);
+        jScrollPane1.setViewportView(itemTable);
+
+        viewItems.setText("View Suppliers");
+        viewItems.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                viewItemsActionPerformed(evt);
+            }
+        });
+
+        Logout.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        Logout.setText("Log out / وتل");
+        Logout.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                LogoutActionPerformed(evt);
+            }
+        });
+
+        Home.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        Home.setText("Home / کور");
+        Home.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                HomeActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 848, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addGap(747, 747, 747)
+                            .addComponent(Logout))
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addGap(747, 747, 747)
+                            .addComponent(Home, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addGap(12, 12, 12)
+                            .addComponent(viewItems, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(7, 7, 7))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(13, 13, 13)
+                .addComponent(Logout)
+                .addGap(7, 7, 7)
+                .addComponent(Home)
+                .addGap(37, 37, 37)
+                .addComponent(viewItems)
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(56, Short.MAX_VALUE))
+        );
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        pack();
+        setLocationRelativeTo(null);
+    }// </editor-fold>//GEN-END:initComponents
+
+    private void viewItemsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_viewItemsActionPerformed
+        try {
+            // TODO add your handling code here:
+            
+            Statement stmt;
+            ResultSet rs= null;
+            
+            
+            String sql="SELECT supplierCode,name,address,contactNumber From Suppliers";
+            
+//        String sql="SELECT supplier, material, itemCode,itemDescription,quantity from gateInward WHERE serialNumber ='"+inwardSerial+"' ";
+            
+            
+            stmt=conn.createStatement();
+            rs=stmt.executeQuery(sql);
+            
+            
+            String header[] = new String[] { "Supplier Code", "Supplier Name"};
+            
+            
+            
+            //dtm.setColumnIdentifiers(header);
+            //itemTable.setTableHeader(header.toString());
+            
+            
+            //System.out.println(rs."rs is null");
+            
+            itemTable.setModel(DbUtils.resultSetToTableModel(rs));
+            //itemTable
+        } catch (SQLException ex) {
+            Logger.getLogger(viewSuppliers.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_viewItemsActionPerformed
+
+    private void LogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LogoutActionPerformed
+        // TODO add your handling code here:
+        login obj=new login();
+        obj.setVisible(true);
+        this.dispose();
+
+    }//GEN-LAST:event_LogoutActionPerformed
+
+    private void HomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_HomeActionPerformed
+        // TODO add your handling code here:
+        String role=QASProject.userrole;
+
+        if(role.equals("Admin"))
+        {
+            adminHome obj=new adminHome();
+            obj.setVisible(true);
+            this.dispose();
+
+        }
+
+        //manager
+        else if(role.equals("Manager"))
+        {
+            ManagerHome obj=new ManagerHome();
+            obj.setVisible(true);
+            this.dispose();
+
+        }
+
+        //gateKeeper
+        else if(role.equals("Gate Keeper"))
+        {
+            gateKeeperHome obj=new gateKeeperHome();
+            obj.setVisible(true);
+            this.dispose();
+
+        }
+        //store Incharge
+        else if(role.equals("Store Incharge"))
+        {
+            storeInchargeHome obj=new storeInchargeHome();
+            obj.setVisible(true);
+            this.dispose();
+
+        }
+
+        //finished goods store incharge
+        else if(role.equals("Warehouse Incharge"))
+        {
+            FinishedStoreInchargeHome obj=new FinishedStoreInchargeHome();
+            obj.setVisible(true);
+            this.dispose();
+        }
+
+    }//GEN-LAST:event_HomeActionPerformed
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(viewSuppliers.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(viewSuppliers.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(viewSuppliers.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(viewSuppliers.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
+        //</editor-fold>
+
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new viewSuppliers().setVisible(true);
+            }
+        });
+    }
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton Home;
+    private javax.swing.JButton Logout;
+    private javax.swing.JTable itemTable;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JButton viewItems;
+    // End of variables declaration//GEN-END:variables
+}
