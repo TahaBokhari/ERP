@@ -18,11 +18,22 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.design.JRDesignQuery;
+import net.sf.jasperreports.engine.design.JasperDesign;
+import net.sf.jasperreports.engine.xml.JRXmlLoader;
+import net.sf.jasperreports.view.JasperViewer;
 
 /**
  *
@@ -964,42 +975,64 @@ public class AddNewEmployee extends javax.swing.JFrame {
     }//GEN-LAST:event_submit1ActionPerformed
 
     private void printActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_printActionPerformed
-        // TODO add your handling code here:
+        try {
+            // TODO add your handling code here:
+            JasperDesign jd=JRXmlLoader.load("C:\\Users\\tahab\\Documents\\NetBeansProjects\\QASProject\\src\\qasproject\\employeeForm.jrxml");
+            HashMap<String, Object> hm=new HashMap<>();
+            hm.put("empNum",name.getText());
+            
+            System.out.println(hm.get("empNum"));
+            
+            
+            String sql="SELECT employeeId From employees";
+            JRDesignQuery newQuery=new JRDesignQuery();
+            newQuery.setText(sql);
+            jd.setQuery(newQuery); 
+            
+            JasperReport jr=JasperCompileManager.compileReport(jd);
+            JasperPrint jp=JasperFillManager.fillReport(jr, hm, conn);
+            JasperViewer.viewReport(jp);
+            
+            
+            
+        } catch (JRException ex) {
+            Logger.getLogger(AddNewEmployee.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
-        String finalPrint="";
-        String header="                                                   Al Makkah Fiber/ الماکه فایبر ;                                               Employee Registration Form/ د کارمندانو د ثبت فورمه ;";
-        //String dateIssue=" تاربخ : "+date.getText()+";";
-        //String serial=" د سلسلې نمره: "+serialNumber.getText()+";";
-        //String plt="ماشین:"+plantCombo.getSelectedItem().toString()+";";       //String supplier="Supplier : "+supplierCombo.getSelectedItem().toString()+";";
-        String pInfoHeader="Personal Information / شخصي معلومات:;";
-        String eId="Employee ID: "+employeeId.getText()+";";
-        String pInfo="Name:  "+name.getText()+";"+"Father Name: "+fName.getText()+";"+"Grand Father Name: "+gfName.getText()+";";
-        pInfo=pInfo+"ID Card Number: "+idCard.getText()+"    "+"ID Card Page Number: "+idPage.getText()+"    "+"Contact Number: "+phoneNum.getText()+";";
-        
-        
-        String line="; --------------------------------------------------------------------------------------------------------------------------------------;";
-//        String tableHeading=" مواد                 کوډ                   تفصیل              مقدار               د واحدقیمت              ټول لګښت ";
+//        String finalPrint="";
+//        String header="                                                   Al Makkah Fiber/ الماکه فایبر ;                                               Employee Registration Form/ د کارمندانو د ثبت فورمه ;";
+//        //String dateIssue=" تاربخ : "+date.getText()+";";
+//        //String serial=" د سلسلې نمره: "+serialNumber.getText()+";";
+//        //String plt="ماشین:"+plantCombo.getSelectedItem().toString()+";";       //String supplier="Supplier : "+supplierCombo.getSelectedItem().toString()+";";
+//        String pInfoHeader="Personal Information / شخصي معلومات:;";
+//        String eId="Employee ID: "+employeeId.getText()+";";
+//        String pInfo="Name:  "+name.getText()+";"+"Father Name: "+fName.getText()+";"+"Grand Father Name: "+gfName.getText()+";";
+//        pInfo=pInfo+"ID Card Number: "+idCard.getText()+"    "+"ID Card Page Number: "+idPage.getText()+"    "+"Contact Number: "+phoneNum.getText()+";";
 //        
 //        
-//        //printArea.append();
-//        int rows=itemTable.getRowCount();
+//        String line="; --------------------------------------------------------------------------------------------------------------------------------------;";
+////        String tableHeading=" مواد                 کوډ                   تفصیل              مقدار               د واحدقیمت              ټول لګښت ";
+////        
+////        
+////        //printArea.append();
+////        int rows=itemTable.getRowCount();
+////        
+////        String table="";
+////        
+////        for(int i=0;i<rows;i++)
+////        {
+////            table=table+itemTable.getValueAt(i, 5)+"                   "+itemTable.getValueAt(i, 4)+"                      "+itemTable.getValueAt(i, 3)+"                   "+itemTable.getValueAt(i, 2)+"                "+itemTable.getValueAt(i, 0)+"                  "+itemTable.getValueAt(i, 1)+";";
+////            
+////        }
 //        
-//        String table="";
+//        String approv=";;"+"له خوا چمتو شوی :"+preparedBy.getText()+"        "+"چیک کوونکی:                "+" نګران:                   " +"; "+"; "+"وصول کونکی"+"نوټ:                                       "; //+"  کیټ مسول              :"
 //        
-//        for(int i=0;i<rows;i++)
-//        {
-//            table=table+itemTable.getValueAt(i, 5)+"                   "+itemTable.getValueAt(i, 4)+"                      "+itemTable.getValueAt(i, 3)+"                   "+itemTable.getValueAt(i, 2)+"                "+itemTable.getValueAt(i, 0)+"                  "+itemTable.getValueAt(i, 1)+";";
-//            
-//        }
-        
-        String approv=";;"+"له خوا چمتو شوی :"+preparedBy.getText()+"        "+"چیک کوونکی:                "+" نګران:                   " +"; "+"; "+"وصول کونکی"+"نوټ:                                       "; //+"  کیټ مسول              :"
-        
-        
-        finalPrint=finalPrint+header+pInfoHeader+eId+pInfo+line;
-        printNow p=new printNow();
-        //header=header+table;
-        printNow.printCard(finalPrint);
-        
+//        
+//        finalPrint=finalPrint+header+pInfoHeader+eId+pInfo+line;
+//        printNow p=new printNow();
+//        //header=header+table;
+//        printNow.printCard(finalPrint);
+//        
     }//GEN-LAST:event_printActionPerformed
 
     /**
