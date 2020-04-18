@@ -977,7 +977,7 @@ public class AddNewEmployee extends javax.swing.JFrame {
     private void printActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_printActionPerformed
         try {
             // TODO add your handling code here:
-            JasperDesign jd=JRXmlLoader.load("C:\\Users\\tahab\\Documents\\NetBeansProjects\\QASProject\\src\\qasproject\\employeeForm.jrxml");
+            JasperDesign jd=JRXmlLoader.load("C:\\Users\\tahab\\Documents\\NetBeansProjects\\QASProject\\src\\qasproject\\employeeDetails.jrxml");
             HashMap<String, Object> hm=new HashMap<>();
             hm.put("empNum",name.getText());
             

@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="7038d4fc-9983-4c31-b331-bcb8137ca2c1">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="empNum" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="62" splitType="Stretch">
+			<staticText>
+				<reportElement x="172" y="16" width="221" height="38" uuid="816d4f31-6071-480a-9391-de2a0a7ecf7f"/>
+				<textElement>
+					<font size="22"/>
+				</textElement>
+				<text><![CDATA[المکه فایبر د جوړولو فابریکه					
+]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="31" splitType="Stretch">
+			<staticText>
+				<reportElement x="194" y="0" width="175" height="28" uuid="27d2e909-0489-414b-9020-780e97f80840"/>
+				<textElement>
+					<font size="16"/>
+				</textElement>
+				<text><![CDATA[د کارمندانو د راجسټریشن فورمه]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="23" splitType="Stretch">
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="455" y="3" width="100" height="20" uuid="5ca11de9-4839-4963-b08f-051507d61f69"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="411" y="3" width="44" height="20" uuid="0c7a1865-6182-407c-b187-5b1621b26a21"/>
+				<textElement>
+					<font size="11"/>
+				</textElement>
+				<text><![CDATA[Date :
+]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="357" splitType="Stretch">
+			<rectangle>
+				<reportElement x="0" y="24" width="555" height="165" uuid="00b98991-e53b-4006-997c-a64b652187f8"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="10" y="4" width="231" height="20" uuid="46fe51d8-5029-4d89-be82-ac1678f2eabb"/>
+				<textElement>
+					<font size="13" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Personal Information / شخصي معلومات:]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="-1" y="221" width="555" height="128" uuid="dace352a-d01a-4b37-b2e5-c64e3c063925"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="10" y="201" width="199" height="20" uuid="cb87094d-f876-4706-8464-d2ed6a2bde9e"/>
+				<textElement>
+					<font size="13" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Security Person Information:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="10" y="241" width="100" height="20" uuid="7e842b59-0029-40fc-a5a2-199b708c2f20"/>
+				<textFieldExpression><![CDATA[$P{empNum}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="505" y="44" width="37" height="20" uuid="74aabd72-5fd1-45a2-8431-b07a9416fbd3"/>
+				<textElement>
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[نوم :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="312" y="44" width="57" height="20" uuid="9332b528-e5a0-4359-bd97-b3360d1a04a6"/>
+				<textElement>
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[د پلار نوم: ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="99" y="44" width="83" height="20" uuid="1a000a3e-d763-4a11-ac7c-260f28935a9a"/>
+				<textElement>
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[د لوی پلار نوم :]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="217" y="44" width="95" height="20" uuid="3ccad064-95d1-4e4e-9e08-ad138f93a65f"/>
+				<textElement>
+					<font size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{empNum}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="192" y="75" width="79" height="20" uuid="d53567e5-bc38-4125-89fd-9b919312035f"/>
+				<textElement>
+					<font size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{empNum}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="421" y="44" width="84" height="20" uuid="0249b110-8a15-4b9b-a559-6b37a74d0bed"/>
+				<textElement>
+					<font size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{empNum}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="473" y="75" width="69" height="20" uuid="ce1a720a-9c9d-45e8-b451-9262b30c5af9"/>
+				<textElement>
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[شناختی کارډ :]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="15" y="44" width="84" height="20" uuid="130e1adc-f68e-46be-8754-75e1d0cbeb75"/>
+				<textElement>
+					<font size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{empNum}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="271" y="75" width="98" height="20" uuid="f02c053e-6ac0-457e-ae7f-716e905e433d"/>
+				<textElement>
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[شناختی کارډ ورق :]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="389" y="75" width="84" height="20" uuid="21dc5307-6316-418d-8eef-eb7f314b978d"/>
+				<textElement>
+					<font size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{empNum}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="138" y="75" width="44" height="20" uuid="387894b1-8ff5-457f-9043-f1160d3c66a3"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[تلیفون :]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="54" y="75" width="84" height="20" uuid="fb862f5c-fc37-462b-9e2e-71ad60dde010"/>
+				<textElement>
+					<font size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{empNum}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="61" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>
