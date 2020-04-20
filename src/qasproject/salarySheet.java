@@ -13,6 +13,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -21,6 +22,7 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import net.proteanit.sql.DbUtils;
+import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 
 /**
  *
@@ -34,121 +36,161 @@ public class salarySheet extends javax.swing.JFrame {
     Connection conn=null;
     static boolean dateFlag=false;
     static String d=null;
-//    Statement stmt=null;
-//    ResultSet rs=null;
+    
+    ArrayList <String> employees=new ArrayList();
+    
     public salarySheet() throws SQLException {
         initComponents();
-        this.setTitle("Attandance Sheet");
+        this.setTitle("Salary Sheet");
         conn=DBconnection.connectDb();
         
-        Date date = new Date();
-        currDate.setDate(date);
-        java.sql.Date sqlDate = new java.sql.Date(currDate.getDate().getTime());
-        d=sqlDate.toString();
-        //java.sql.Date date1=(java.sql.Date) currDate.getTime();
+        buttonGroup1.add(selectEmpRadio);
+        buttonGroup1.add(allEmpRadio);
         
-        System.out.println(sqlDate);
+        Calendar cal = Calendar.getInstance();
+        jMonthChooser.setMonth(cal.get(Calendar.MONTH));
+        jMonthChooser.setEnabled(false);
         
-        
-        //currDate.setEnabled(false);
-        
-        dateFlag=checkAttendance(sqlDate);
-        
-        if(dateFlag==false){
-        //String sql="Select distinct (employeeId),name From Employees";
-            submit.disable();
-            print.disable();
-            currDate.setEnabled(false);
-            
-            
-        }
-        else if(dateFlag==true){
-        
-        populateEmployee();
-        String[] values={"--Please Select--","Present","Absent"};
-        JComboBox c=new JComboBox(values);
-        itemTable.getColumnModel().getColumn(4).setCellEditor(new DefaultCellEditor(c));
-        }
-        
-        
-        
-    }
-
-    private boolean checkAttendance(Date currentDate) throws SQLException
-    {
-        ArrayList <String> enteredDates=new ArrayList();
-        Statement stmt;
-        ResultSet rs= null;
-        String sql="Select distinct (attendanceDate) From attendance";
-        
-        try{
-         stmt=conn.createStatement();
-         rs=stmt.executeQuery(sql);
-        }
-        catch(Exception e)
-        {
-            System.out.println(e.getMessage());
-            
-        }
-        
-        while(rs.next())
-         {
-             System.out.println("not null");
-             String supplier=rs.getString(1);
-             enteredDates.add(supplier);
-             
-         }
-        System.out.println("list: "+enteredDates);
-        System.out.println("passed date :"+currentDate.toString());
-        
-        if(enteredDates.contains(currentDate.toString()))
-        {
-            return false;
-        }
-        
-        return true;
-    }
-    
-    private void populateEmployee() throws SQLException
-    {
-        Statement stmt;
-        ResultSet rs= null;
-        String sql="Select distinct (employeeId)AS Employee_ID,name AS Name,fatherName AS Father_Name,department AS Department,fatherName AS Attendance From employees";
-        
-        try{
-         stmt=conn.createStatement();
-         rs=stmt.executeQuery(sql);
-        }
-        catch(Exception e)
-        {
-            System.out.println(e.getMessage());
-            
-        }
-        
-        itemTable.setModel(DbUtils.resultSetToTableModel(rs));
-        
-        for(int i=0;i<itemTable.getRowCount();i++)
-        {
-        itemTable.setValueAt("--Please Select--", i, 4);
-        }
+        populateEmployees();
+//        Date date = new Date();
+//        currDate.setDate(date);
+//        java.sql.Date sqlDate = new java.sql.Date(currDate.getDate().getTime());
+//        d=sqlDate.toString();
+//        //java.sql.Date date1=(java.sql.Date) currDate.getTime();
+//        
+//        System.out.println(sqlDate);
+//        
+//        
+//        //currDate.setEnabled(false);
+//        
+//        dateFlag=checkAttendance(sqlDate);
+//        
+//        if(dateFlag==false){
+//        //String sql="Select distinct (employeeId),name From Employees";
+//            submit.disable();
+//            print.disable();
+//            currDate.setEnabled(false);
+//            
+//            
+//        }
+//        else if(dateFlag==true){
+//        
+//        populateEmployee();
 //        String[] values={"--Please Select--","Present","Absent"};
 //        JComboBox c=new JComboBox(values);
-        //itemTable.getColumnModel().getColumn(2).setCellEditor(new DefaultCellEditor(c));
-//        plants.add("--Please Select--");
-//         while(rs.next())
-//         {
-//             System.out.println("not null");
-//             String plant=rs.getString(1);
-//             plants.add(plant);
-//             
-//         }
-//         
-//        DefaultComboBoxModel model2 = new DefaultComboBoxModel(plants.toArray());
-//        deptCombo.setModel( model2);
-         
+//        itemTable.getColumnModel().getColumn(4).setCellEditor(new DefaultCellEditor(c));
+//        }
+//        
+//        
         
     }
     
+    private void populateEmployees() throws SQLException
+    {
+        Statement stmt;
+        ResultSet rs= null;
+        String sql="Select distinct (employeeId),name From employees";
+        
+        try{
+         stmt=conn.createStatement();
+         rs=stmt.executeQuery(sql);
+        }
+        catch(Exception e)
+        {
+            System.out.println(e.getMessage());
+            
+        }
+        while(rs.next())
+        {
+            String emp=rs.getString(2)+"  "+rs.getString(1);
+            employees.add(emp);
+        }
+        
+//        employees.add("ali  EMP-0002");
+//        employees.add("farooq  EMP-0003");
+        
+        DefaultComboBoxModel model2 = new DefaultComboBoxModel(employees.toArray());
+        empCombo.setModel( model2);
+        
+        empCombo.setSelectedItem(" ");
+        AutoCompleteDecorator.decorate(empCombo);
+        
+    }
+//    private boolean checkAttendance(Date currentDate) throws SQLException
+//    {
+//        ArrayList <String> enteredDates=new ArrayList();
+//        Statement stmt;
+//        ResultSet rs= null;
+//        String sql="Select distinct (attendanceDate) From attendance";
+//        
+//        try{
+//         stmt=conn.createStatement();
+//         rs=stmt.executeQuery(sql);
+//        }
+//        catch(Exception e)
+//        {
+//            System.out.println(e.getMessage());
+//            
+//        }
+//        
+//        while(rs.next())
+//         {
+//             System.out.println("not null");
+//             String supplier=rs.getString(1);
+//             enteredDates.add(supplier);
+//             
+//         }
+//        System.out.println("list: "+enteredDates);
+//        System.out.println("passed date :"+currentDate.toString());
+//        
+//        if(enteredDates.contains(currentDate.toString()))
+//        {
+//            return false;
+//        }
+//        
+//        return true;
+//    }
+    
+//    private void populateEmployee() throws SQLException
+//    {
+//        Statement stmt;
+//        ResultSet rs= null;
+//        String sql="Select distinct (employeeId)AS Employee_ID,name AS Name,fatherName AS Father_Name,department AS Department,fatherName AS Attendance From employees";
+//        
+//        try{
+//         stmt=conn.createStatement();
+//         rs=stmt.executeQuery(sql);
+//        }
+//        catch(Exception e)
+//        {
+//            System.out.println(e.getMessage());
+//            
+//        }
+//        
+//        itemTable.setModel(DbUtils.resultSetToTableModel(rs));
+//        
+//        for(int i=0;i<itemTable.getRowCount();i++)
+//        {
+//        itemTable.setValueAt("--Please Select--", i, 4);
+//        }
+////        String[] values={"--Please Select--","Present","Absent"};
+////        JComboBox c=new JComboBox(values);
+//        //itemTable.getColumnModel().getColumn(2).setCellEditor(new DefaultCellEditor(c));
+////        plants.add("--Please Select--");
+////         while(rs.next())
+////         {
+////             System.out.println("not null");
+////             String plant=rs.getString(1);
+////             plants.add(plant);
+////             
+////         }
+////         
+////        DefaultComboBoxModel model2 = new DefaultComboBoxModel(plants.toArray());
+////        deptCombo.setModel( model2);
+//         
+//        
+//    }
+//    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -158,20 +200,30 @@ public class salarySheet extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        buttonGroup1 = new javax.swing.ButtonGroup();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        currDate = new com.toedter.calendar.JDateChooser();
         jScrollPane1 = new javax.swing.JScrollPane();
         itemTable = new javax.swing.JTable();
         submit = new javax.swing.JButton();
         print = new javax.swing.JButton();
+        jMonthChooser = new com.toedter.calendar.JMonthChooser();
+        factoryCombo = new javax.swing.JComboBox();
+        jLabel2 = new javax.swing.JLabel();
+        allEmpRadio = new javax.swing.JRadioButton();
+        selectEmpRadio = new javax.swing.JRadioButton();
+        empCombo = new javax.swing.JComboBox();
+        jLabel3 = new javax.swing.JLabel();
+        generateSalary = new javax.swing.JButton();
+        jLabel4 = new javax.swing.JLabel();
+        workingDays = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel1.setText("Date :");
+        jLabel1.setText("Factory :");
 
         itemTable.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         itemTable.setModel(new javax.swing.table.DefaultTableModel(
@@ -197,6 +249,53 @@ public class salarySheet extends javax.swing.JFrame {
 
         print.setText("Print");
 
+        factoryCombo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Al Makkah Fiber" }));
+        factoryCombo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                factoryComboActionPerformed(evt);
+            }
+        });
+
+        jLabel2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel2.setText("Month :");
+
+        allEmpRadio.setText("All Employees");
+
+        selectEmpRadio.setText("Select Employee");
+        selectEmpRadio.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                selectEmpRadioActionPerformed(evt);
+            }
+        });
+
+        empCombo.setEditable(true);
+        empCombo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        empCombo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                empComboActionPerformed(evt);
+            }
+        });
+
+        jLabel3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel3.setText("Employee :");
+
+        generateSalary.setText("Generate Salary");
+        generateSalary.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                generateSalaryActionPerformed(evt);
+            }
+        });
+
+        jLabel4.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel4.setText("Working Days :");
+
+        workingDays.setEditable(false);
+        workingDays.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                workingDaysActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -205,32 +304,71 @@ public class salarySheet extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1313, Short.MAX_VALUE)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(currDate, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(print, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(submit, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(submit, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel3))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(selectEmpRadio)
+                                        .addGap(35, 35, 35))
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(jMonthChooser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addGap(40, 40, 40)))
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(jLabel4)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(workingDays, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(empCombo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addGap(48, 48, 48)
+                                .addComponent(generateSalary, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(allEmpRadio)
+                            .addComponent(factoryCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(currDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(factoryCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 643, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(workingDays, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jMonthChooser, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(15, 15, 15)
+                        .addComponent(allEmpRadio)
+                        .addGap(12, 12, 12)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(selectEmpRadio)
+                            .addComponent(empCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(generateSalary)))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(28, 28, 28)
+                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 554, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(submit)
-                    .addComponent(print))
-                .addContainerGap(30, Short.MAX_VALUE))
+                    .addComponent(print)
+                    .addComponent(submit)))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -257,82 +395,107 @@ public class salarySheet extends javax.swing.JFrame {
     private void submitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitActionPerformed
         // TODO add your handling code here:
         //checking if all selected
-        if(dateFlag==true){
-            
-            if(currDate.getDate().before(new java.util.Date()))
-            {
-        
-        java.sql.Timestamp date = new java.sql.Timestamp( currDate.getDate().getTime());//new java.util.Date().getTime()
-        
-        System.out.println(date);
-        boolean flag=true;
-        
-        for(int j=0;j<itemTable.getRowCount();j++)
-        {
-            if(itemTable.getValueAt(j, 4).toString().equals("--Please Select--"))
-            {
-                JOptionPane.showMessageDialog(null,"Attendance not marked for "+itemTable.getValueAt(j, 0));
-                flag=false;
-            }
-        }
-        
-    if(flag==true)
-    {
-        
-        PreparedStatement pstmt=null;
-        
-        String sql4="INSERT into attendance values (default,?,?,?)" ;
-        
-            try {
-                pstmt = conn.prepareStatement(sql4);
-            } catch (SQLException ex) {
-                Logger.getLogger(salarySheet.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        
-        
-        int rows=itemTable.getRowCount();
-        //Date currentDate=currDate.getDate();
-        
-        for(int i=0;i<rows;i++)
-        {
-            try {
-                String eId=itemTable.getValueAt(i, 0).toString();
-                String empStatus=itemTable.getValueAt(i, 4).toString();
-                
-                pstmt.setString(1, eId);
-                pstmt.setTimestamp(2, date);
-                pstmt.setString(3, empStatus);
-                
-                
-                pstmt.addBatch();
-            } catch (SQLException ex) {
-                Logger.getLogger(salarySheet.class.getName()).log(Level.SEVERE, null, ex);
-            }
-         
-        }
-        
-            try {
-                pstmt.executeBatch();
-            } catch (SQLException ex) {
-                Logger.getLogger(salarySheet.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            //conn.commit();
-        JOptionPane.showMessageDialog(null,"  Successfully Saved! ");
-        
-       }
-        }
-         else
-        {
-            JOptionPane.showMessageDialog(null,"  Cannot enter future date ");
-        }
-            
-        }
-        else
-        {
-            JOptionPane.showMessageDialog(null,"  Cannot submit attendance ");
-        }
-        
+//        if(dateFlag==true){
+//            
+//            if(currDate.getDate().before(new java.util.Date()))
+//            {
+//        
+//        java.sql.Timestamp date = new java.sql.Timestamp( currDate.getDate().getTime());//new java.util.Date().getTime()
+//        
+//        System.out.println(date);
+//        boolean flag=true;
+//        
+//        for(int j=0;j<itemTable.getRowCount();j++)
+//        {
+//            if(itemTable.getValueAt(j, 4).toString().equals("--Please Select--"))
+//            {
+//                JOptionPane.showMessageDialog(null,"Attendance not marked for "+itemTable.getValueAt(j, 0));
+//                flag=false;
+//            }
+//        }
+//        
+//    if(flag==true)
+//    {
+//        
+//        PreparedStatement pstmt=null;
+//        
+//        String sql4="INSERT into attendance values (default,?,?,?)" ;
+//        
+//            try {
+//                pstmt = conn.prepareStatement(sql4);
+//            } catch (SQLException ex) {
+//                Logger.getLogger(salarySheet.class.getName()).log(Level.SEVERE, null, ex);
+//            }
+//        
+//        
+//        int rows=itemTable.getRowCount();
+//        //Date currentDate=currDate.getDate();
+//        
+//        for(int i=0;i<rows;i++)
+//        {
+//            try {
+//                String eId=itemTable.getValueAt(i, 0).toString();
+//                String empStatus=itemTable.getValueAt(i, 4).toString();
+//                
+//                pstmt.setString(1, eId);
+//                pstmt.setTimestamp(2, date);
+//                pstmt.setString(3, empStatus);
+//                
+//                
+//                pstmt.addBatch();
+//            } catch (SQLException ex) {
+//                Logger.getLogger(salarySheet.class.getName()).log(Level.SEVERE, null, ex);
+//            }
+//         
+//        }
+//        
+//            try {
+//                pstmt.executeBatch();
+//            } catch (SQLException ex) {
+//                Logger.getLogger(salarySheet.class.getName()).log(Level.SEVERE, null, ex);
+//            }
+//            //conn.commit();
+//        JOptionPane.showMessageDialog(null,"  Successfully Saved! ");
+//        
+//       }
+//        }
+//         else
+//        {
+//            JOptionPane.showMessageDialog(null,"  Cannot enter future date ");
+//        }
+//            
+//        }
+//        else
+//        {
+//            JOptionPane.showMessageDialog(null,"  Cannot submit attendance ");
+//        }
+//        
     }//GEN-LAST:event_submitActionPerformed
+
+    private void factoryComboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_factoryComboActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_factoryComboActionPerformed
+
+    private void empComboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_empComboActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_empComboActionPerformed
+
+    private void workingDaysActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_workingDaysActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_workingDaysActionPerformed
+
+    private void generateSalaryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_generateSalaryActionPerformed
+        // TODO add your handling code here:
+        
+        
+        
+        
+        
+    }//GEN-LAST:event_generateSalaryActionPerformed
+
+    private void selectEmpRadioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_selectEmpRadioActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_selectEmpRadioActionPerformed
 
     /**
      * @param args the command line arguments
@@ -369,14 +532,14 @@ public class salarySheet extends javax.swing.JFrame {
                    salarySheet obj= new salarySheet();
                    obj.setVisible(true);
                    
-                    if(dateFlag==false)
-                    {
-                        JOptionPane.showMessageDialog(null,"Attendance already marked for "+d);
-                        obj.setEnabled(false);
-                        //obj.setBackground(new Color(0,100,0,100));
-                        
-                        
-                    }
+//                    if(dateFlag==false)
+//                    {
+//                        JOptionPane.showMessageDialog(null,"Attendance already marked for "+d);
+//                        obj.setEnabled(false);
+//                        //obj.setBackground(new Color(0,100,0,100));
+//                        
+//                        
+//                    }
                 } catch (SQLException ex) {
                     Logger.getLogger(salarySheet.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -385,12 +548,22 @@ public class salarySheet extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private com.toedter.calendar.JDateChooser currDate;
+    private javax.swing.JRadioButton allEmpRadio;
+    private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.JComboBox empCombo;
+    private javax.swing.JComboBox factoryCombo;
+    private javax.swing.JButton generateSalary;
     private javax.swing.JTable itemTable;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private com.toedter.calendar.JMonthChooser jMonthChooser;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JButton print;
+    private javax.swing.JRadioButton selectEmpRadio;
     private javax.swing.JButton submit;
+    private javax.swing.JTextField workingDays;
     // End of variables declaration//GEN-END:variables
 }
