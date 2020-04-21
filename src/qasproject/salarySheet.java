@@ -6,6 +6,7 @@
 package qasproject;
 
 import java.awt.Color;
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 
@@ -21,6 +22,7 @@ import javax.swing.DefaultCellEditor;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
+import javax.swing.table.TableModel;
 import net.proteanit.sql.DbUtils;
 import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 
@@ -238,6 +240,11 @@ public class salarySheet extends javax.swing.JFrame {
             }
         ));
         itemTable.setRowHeight(24);
+        itemTable.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                itemTableKeyPressed(evt);
+            }
+        });
         jScrollPane1.setViewportView(itemTable);
 
         submit.setText("Submit");
@@ -287,7 +294,7 @@ public class salarySheet extends javax.swing.JFrame {
         });
 
         jLabel4.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel4.setText("Working Days :");
+        jLabel4.setText("Total Working Days :");
 
         workingDays.setEditable(false);
         workingDays.addActionListener(new java.awt.event.ActionListener() {
@@ -487,8 +494,26 @@ public class salarySheet extends javax.swing.JFrame {
     private void generateSalaryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_generateSalaryActionPerformed
         // TODO add your handling code here:
         
-        
-        
+        String sql="Select E.employeeId AS EMP_ID, E.name AS EMP_Name,E.department AS Department, (E.salaryAmount/DAY(LAST_DAY(CURDATE()))) AS Per_Day_Salary, count(A.employeeId)AS Working_Days,(E.salaryAmount/DAY(LAST_DAY(CURDATE())))*count(A.employeeId) AS Calculated_Salary,(E.salaryAmount/DAY(LAST_DAY(CURDATE())))*count(A.employeeId) AS Previous_Deduction,(E.salaryAmount/DAY(LAST_DAY(CURDATE())))*count(A.employeeId) AS Net_Salary From employees AS E inner join attendance AS A on E.employeeId=A.employeeId Where MONTH(A.attendanceDate)=MONTH(CURDATE()) AND YEAR(A.attendanceDate)=YEAR(CURDATE()) AND A.status='Present' GROUP BY A.employeeId ";
+        Statement stmt;
+        ResultSet rs= null;
+        try{
+         stmt=conn.createStatement();
+         rs=stmt.executeQuery(sql);
+        }
+        catch(Exception e)
+        {
+            System.out.println(e.getMessage());
+            
+        }
+        double val=0.0;
+        BigDecimal a=new BigDecimal(val); 
+        itemTable.setModel(DbUtils.resultSetToTableModel(rs));
+        for(int i=0;i<itemTable.getRowCount();i++)
+        {
+            itemTable.setValueAt(a, i, 6);
+            //itemTable.setValueAt(0, i, 7);
+        }
         
         
     }//GEN-LAST:event_generateSalaryActionPerformed
@@ -496,6 +521,29 @@ public class salarySheet extends javax.swing.JFrame {
     private void selectEmpRadioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_selectEmpRadioActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_selectEmpRadioActionPerformed
+
+    private void itemTableKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_itemTableKeyPressed
+        // TODO add your handling code here:
+        //System.out.println(this.);
+        int row=itemTable.getSelectedRow();
+        
+        TableModel model=itemTable.getModel();
+        
+        BigDecimal calcSalary=(BigDecimal)itemTable.getValueAt(row,5);
+        System.out.println(calcSalary);
+        
+        BigDecimal deduction=new BigDecimal(Double.parseDouble(model.getValueAt(row, 6).toString())) ;
+        System.out.println(deduction);
+//        
+        //double calcSalary=(double) itemTable.getValueAt(row,5);
+        //BigDecimal deduction=(BigDecimal) itemTable.getValueAt(row,6);
+        //System.out.println(deduction);
+        
+        BigDecimal netSalary=calcSalary.subtract(deduction);
+        itemTable.setValueAt(netSalary, row, 7);
+//        //itemTable.setV
+        
+    }//GEN-LAST:event_itemTableKeyPressed
 
     /**
      * @param args the command line arguments
