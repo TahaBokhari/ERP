@@ -53,6 +53,12 @@ public class salarySheet extends javax.swing.JFrame {
         jMonthChooser.setMonth(cal.get(Calendar.MONTH));
         jMonthChooser.setEnabled(false);
         
+        Calendar c = Calendar.getInstance();
+        int monthMaxDays = c.getActualMaximum(Calendar.DAY_OF_MONTH);
+        
+        workingDays.setText(Integer.toString(monthMaxDays));
+        
+        
         populateEmployees();
 //        Date date = new Date();
 //        currDate.setDate(date);
@@ -207,7 +213,6 @@ public class salarySheet extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         itemTable = new javax.swing.JTable();
-        submit = new javax.swing.JButton();
         print = new javax.swing.JButton();
         jMonthChooser = new com.toedter.calendar.JMonthChooser();
         factoryCombo = new javax.swing.JComboBox();
@@ -246,13 +251,6 @@ public class salarySheet extends javax.swing.JFrame {
             }
         });
         jScrollPane1.setViewportView(itemTable);
-
-        submit.setText("Submit");
-        submit.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                submitActionPerformed(evt);
-            }
-        });
 
         print.setText("Print");
 
@@ -311,11 +309,6 @@ public class salarySheet extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1313, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(print, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(submit, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel1)
@@ -341,7 +334,10 @@ public class salarySheet extends javax.swing.JFrame {
                                 .addComponent(generateSalary, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(allEmpRadio)
                             .addComponent(factoryCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(print, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -372,10 +368,9 @@ public class salarySheet extends javax.swing.JFrame {
                         .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 554, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(print)
-                    .addComponent(submit)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(print)
+                .addGap(6, 6, 6))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -399,86 +394,6 @@ public class salarySheet extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void submitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitActionPerformed
-        // TODO add your handling code here:
-        //checking if all selected
-//        if(dateFlag==true){
-//            
-//            if(currDate.getDate().before(new java.util.Date()))
-//            {
-//        
-//        java.sql.Timestamp date = new java.sql.Timestamp( currDate.getDate().getTime());//new java.util.Date().getTime()
-//        
-//        System.out.println(date);
-//        boolean flag=true;
-//        
-//        for(int j=0;j<itemTable.getRowCount();j++)
-//        {
-//            if(itemTable.getValueAt(j, 4).toString().equals("--Please Select--"))
-//            {
-//                JOptionPane.showMessageDialog(null,"Attendance not marked for "+itemTable.getValueAt(j, 0));
-//                flag=false;
-//            }
-//        }
-//        
-//    if(flag==true)
-//    {
-//        
-//        PreparedStatement pstmt=null;
-//        
-//        String sql4="INSERT into attendance values (default,?,?,?)" ;
-//        
-//            try {
-//                pstmt = conn.prepareStatement(sql4);
-//            } catch (SQLException ex) {
-//                Logger.getLogger(salarySheet.class.getName()).log(Level.SEVERE, null, ex);
-//            }
-//        
-//        
-//        int rows=itemTable.getRowCount();
-//        //Date currentDate=currDate.getDate();
-//        
-//        for(int i=0;i<rows;i++)
-//        {
-//            try {
-//                String eId=itemTable.getValueAt(i, 0).toString();
-//                String empStatus=itemTable.getValueAt(i, 4).toString();
-//                
-//                pstmt.setString(1, eId);
-//                pstmt.setTimestamp(2, date);
-//                pstmt.setString(3, empStatus);
-//                
-//                
-//                pstmt.addBatch();
-//            } catch (SQLException ex) {
-//                Logger.getLogger(salarySheet.class.getName()).log(Level.SEVERE, null, ex);
-//            }
-//         
-//        }
-//        
-//            try {
-//                pstmt.executeBatch();
-//            } catch (SQLException ex) {
-//                Logger.getLogger(salarySheet.class.getName()).log(Level.SEVERE, null, ex);
-//            }
-//            //conn.commit();
-//        JOptionPane.showMessageDialog(null,"  Successfully Saved! ");
-//        
-//       }
-//        }
-//         else
-//        {
-//            JOptionPane.showMessageDialog(null,"  Cannot enter future date ");
-//        }
-//            
-//        }
-//        else
-//        {
-//            JOptionPane.showMessageDialog(null,"  Cannot submit attendance ");
-//        }
-//        
-    }//GEN-LAST:event_submitActionPerformed
-
     private void factoryComboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_factoryComboActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_factoryComboActionPerformed
@@ -494,7 +409,7 @@ public class salarySheet extends javax.swing.JFrame {
     private void generateSalaryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_generateSalaryActionPerformed
         // TODO add your handling code here:
         
-        String sql="Select E.employeeId AS EMP_ID, E.name AS EMP_Name,E.department AS Department, (E.salaryAmount/DAY(LAST_DAY(CURDATE()))) AS Per_Day_Salary, count(A.employeeId)AS Working_Days,(E.salaryAmount/DAY(LAST_DAY(CURDATE())))*count(A.employeeId) AS Calculated_Salary,(E.salaryAmount/DAY(LAST_DAY(CURDATE())))*count(A.employeeId) AS Previous_Deduction,(E.salaryAmount/DAY(LAST_DAY(CURDATE())))*count(A.employeeId) AS Net_Salary From employees AS E inner join attendance AS A on E.employeeId=A.employeeId Where MONTH(A.attendanceDate)=MONTH(CURDATE()) AND YEAR(A.attendanceDate)=YEAR(CURDATE()) AND A.status='Present' GROUP BY A.employeeId ";
+        String sql="Select E.employeeId AS EMP_ID, E.name AS EMP_Name,E.department AS Department, (E.salaryAmount/DAY(LAST_DAY(CURDATE()))) AS Per_Day_Salary, count(A.employeeId)AS Working_Days,(E.salaryAmount/DAY(LAST_DAY(CURDATE())))*count(A.employeeId) AS Calculated_Salary,DAY(LAST_DAY(CURDATE())) AS Previous_Deduction,(E.salaryAmount/DAY(LAST_DAY(CURDATE())))*count(A.employeeId) AS Net_Salary From employees AS E inner join attendance AS A on E.employeeId=A.employeeId Where MONTH(A.attendanceDate)=MONTH(CURDATE()) AND YEAR(A.attendanceDate)=YEAR(CURDATE()) AND A.status='Present' GROUP BY A.employeeId ";
         Statement stmt;
         ResultSet rs= null;
         try{
@@ -506,9 +421,19 @@ public class salarySheet extends javax.swing.JFrame {
             System.out.println(e.getMessage());
             
         }
+        
         double val=0.0;
         BigDecimal a=new BigDecimal(val); 
+        
+        
+            
+            //int totalDays=(Integer) itemTable.getValueAt(0, 6);
+        
+        
         itemTable.setModel(DbUtils.resultSetToTableModel(rs));
+        
+        
+        
         for(int i=0;i<itemTable.getRowCount();i++)
         {
             itemTable.setValueAt(a, i, 6);
@@ -611,7 +536,6 @@ public class salarySheet extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JButton print;
     private javax.swing.JRadioButton selectEmpRadio;
-    private javax.swing.JButton submit;
     private javax.swing.JTextField workingDays;
     // End of variables declaration//GEN-END:variables
 }

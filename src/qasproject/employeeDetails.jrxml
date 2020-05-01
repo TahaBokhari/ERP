@@ -3,7 +3,20 @@
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
-	<parameter name="empNum" class="java.lang.String"/>
+	<parameter name="name" class="java.lang.String"/>
+	<parameter name="fatherName" class="java.lang.String"/>
+	<parameter name="grandFather" class="java.lang.String"/>
+	<parameter name="idCard" class="java.lang.String"/>
+	<parameter name="idCardPage" class="java.lang.String"/>
+	<parameter name="phone" class="java.lang.String"/>
+	<parameter name="currAddr" class="java.lang.String"/>
+	<parameter name="currCity" class="java.lang.String"/>
+	<parameter name="currProv" class="java.lang.String"/>
+	<parameter name="currCountry" class="java.lang.String"/>
+	<parameter name="perAddr" class="java.lang.String"/>
+	<parameter name="perCity" class="java.lang.String"/>
+	<parameter name="perProv" class="java.lang.String"/>
+	<parameter name="perCountry" class="java.lang.String"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -59,11 +72,11 @@
 				<text><![CDATA[Personal Information / شخصي معلومات:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="10" y="317" width="199" height="20" uuid="cb87094d-f876-4706-8464-d2ed6a2bde9e"/>
+				<reportElement x="10" y="317" width="320" height="20" uuid="cb87094d-f876-4706-8464-d2ed6a2bde9e"/>
 				<textElement>
 					<font size="13" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Security Person Information:]]></text>
+				<text><![CDATA[Security Person Information / د امنیت په اړه معلومات :]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="505" y="44" width="37" height="20" uuid="74aabd72-5fd1-45a2-8431-b07a9416fbd3"/>
@@ -86,27 +99,6 @@
 				</textElement>
 				<text><![CDATA[د لوی پلار نوم :]]></text>
 			</staticText>
-			<textField>
-				<reportElement x="217" y="44" width="95" height="20" uuid="3ccad064-95d1-4e4e-9e08-ad138f93a65f"/>
-				<textElement textAlignment="Right">
-					<font size="11"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$P{empNum}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="192" y="75" width="79" height="20" uuid="d53567e5-bc38-4125-89fd-9b919312035f"/>
-				<textElement textAlignment="Right">
-					<font size="11"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$P{empNum}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="421" y="44" width="84" height="20" uuid="0249b110-8a15-4b9b-a559-6b37a74d0bed"/>
-				<textElement textAlignment="Right">
-					<font size="11"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$P{empNum}]]></textFieldExpression>
-			</textField>
 			<staticText>
 				<reportElement x="473" y="75" width="69" height="20" uuid="ce1a720a-9c9d-45e8-b451-9262b30c5af9"/>
 				<textElement>
@@ -114,13 +106,6 @@
 				</textElement>
 				<text><![CDATA[شناختی کارډ :]]></text>
 			</staticText>
-			<textField>
-				<reportElement x="15" y="44" width="84" height="20" uuid="130e1adc-f68e-46be-8754-75e1d0cbeb75"/>
-				<textElement textAlignment="Right">
-					<font size="11"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$P{empNum}]]></textFieldExpression>
-			</textField>
 			<staticText>
 				<reportElement x="271" y="75" width="98" height="20" uuid="f02c053e-6ac0-457e-ae7f-716e905e433d"/>
 				<textElement>
@@ -128,13 +113,6 @@
 				</textElement>
 				<text><![CDATA[شناختی کارډ ورق :]]></text>
 			</staticText>
-			<textField>
-				<reportElement x="389" y="75" width="84" height="20" uuid="21dc5307-6316-418d-8eef-eb7f314b978d"/>
-				<textElement textAlignment="Right">
-					<font size="11"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$P{empNum}]]></textFieldExpression>
-			</textField>
 			<staticText>
 				<reportElement x="138" y="75" width="44" height="20" uuid="387894b1-8ff5-457f-9043-f1160d3c66a3"/>
 				<textElement>
@@ -142,13 +120,6 @@
 				</textElement>
 				<text><![CDATA[تلیفون :]]></text>
 			</staticText>
-			<textField>
-				<reportElement x="54" y="75" width="84" height="20" uuid="fb862f5c-fc37-462b-9e2e-71ad60dde010"/>
-				<textElement textAlignment="Right">
-					<font size="11"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$P{empNum}]]></textFieldExpression>
-			</textField>
 			<staticText>
 				<reportElement x="473" y="107" width="69" height="20" uuid="533de7e6-eebd-436a-8812-39c9cee0fede"/>
 				<textElement>
@@ -177,34 +148,6 @@
 				</textElement>
 				<text><![CDATA[اوسنی هیواد :]]></text>
 			</staticText>
-			<textField pattern="یایتساینتیس">
-				<reportElement x="374" y="107" width="99" height="20" uuid="c9d1bd5d-e6e6-42d7-9c69-9d6729f3aa1d"/>
-				<textElement textAlignment="Right">
-					<font size="11"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$P{empNum}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="240" y="107" width="67" height="20" uuid="91a6d3b1-b2bf-4085-af37-8acd39bc03ab"/>
-				<textElement textAlignment="Right">
-					<font size="11"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$P{empNum}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="121" y="107" width="51" height="20" uuid="ae22e287-b4f1-46fb-b6bf-82828549c3b3"/>
-				<textElement textAlignment="Right">
-					<font size="11"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$P{empNum}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="0" y="107" width="44" height="20" uuid="b314e4b2-339c-49cc-9d8c-f25f7a6cdca3"/>
-				<textElement textAlignment="Right">
-					<font size="11"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$P{empNum}]]></textFieldExpression>
-			</textField>
 			<staticText>
 				<reportElement x="473" y="139" width="69" height="20" uuid="3c15a64a-0139-4c2a-a668-342f5f1093d2"/>
 				<textElement>
@@ -212,13 +155,6 @@
 				</textElement>
 				<text><![CDATA[مستقل پته :]]></text>
 			</staticText>
-			<textField pattern="یایتساینتیس">
-				<reportElement x="389" y="139" width="80" height="20" uuid="81e415ee-2d4c-44fb-a1ea-8a04f3cedeba"/>
-				<textElement textAlignment="Right">
-					<font size="11"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$P{empNum}]]></textFieldExpression>
-			</textField>
 			<staticText>
 				<reportElement x="312" y="139" width="62" height="20" uuid="4772eba4-a69c-4856-8b16-0afd11452890"/>
 				<textElement>
@@ -226,13 +162,6 @@
 				</textElement>
 				<text><![CDATA[دایمي ښار :]]></text>
 			</staticText>
-			<textField>
-				<reportElement x="245" y="139" width="67" height="20" uuid="e015e2ba-2743-407d-97de-027363aa170a"/>
-				<textElement textAlignment="Right">
-					<font size="11"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$P{empNum}]]></textFieldExpression>
-			</textField>
 			<staticText>
 				<reportElement x="181" y="139" width="64" height="20" uuid="7d08f648-d75f-4a67-802d-6110d795295b"/>
 				<textElement>
@@ -240,13 +169,6 @@
 				</textElement>
 				<text><![CDATA[دایمي ولایت :]]></text>
 			</staticText>
-			<textField>
-				<reportElement x="121" y="139" width="61" height="20" uuid="2b83f559-fe79-4a8b-9aae-7e276d7ee606"/>
-				<textElement textAlignment="Right">
-					<font size="11"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$P{empNum}]]></textFieldExpression>
-			</textField>
 			<staticText>
 				<reportElement x="55" y="139" width="66" height="20" uuid="24e8ee9f-ca0a-4b2f-8576-c1c4e39352c9"/>
 				<textElement>
@@ -254,13 +176,6 @@
 				</textElement>
 				<text><![CDATA[دایمي هیواد :]]></text>
 			</staticText>
-			<textField>
-				<reportElement x="0" y="139" width="54" height="20" uuid="3f3161ce-ce3e-4a1f-acba-a162ad5f2023"/>
-				<textElement textAlignment="Right">
-					<font size="11"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$P{empNum}]]></textFieldExpression>
-			</textField>
 			<rectangle>
 				<reportElement x="0" y="337" width="555" height="120" uuid="2f5511f6-e5a8-4563-b231-b3c1c2d78fad"/>
 			</rectangle>
@@ -268,11 +183,128 @@
 				<reportElement x="0" y="234" width="555" height="73" uuid="4d8fe675-bc0d-4423-8299-72692756d695"/>
 			</rectangle>
 			<staticText>
-				<reportElement x="10" y="214" width="231" height="20" uuid="68716c7d-508f-4f37-83b6-051b23f1420a"/>
+				<reportElement x="10" y="214" width="261" height="20" uuid="68716c7d-508f-4f37-83b6-051b23f1420a"/>
 				<textElement>
 					<font size="13" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Personal Information / شخصي معلومات:]]></text>
+				<text><![CDATA[Department Information /   څانګې معلومات:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="207" y="44" width="100" height="20" uuid="890d0a1c-e703-4fe7-9bec-a6fd4114ec4c"/>
+				<textElement textAlignment="Right">
+					<font size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{fatherName}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="44" width="89" height="20" uuid="741d8423-de45-4c1a-b3d2-9f1199ee788c"/>
+				<textElement textAlignment="Right">
+					<font size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{grandFather}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="393" y="44" width="100" height="20" uuid="d511a15b-a779-44d6-a34a-3f833c54a5cc"/>
+				<textElement textAlignment="Right">
+					<font size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{name}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="378" y="75" width="95" height="20" uuid="0f522e0c-78cd-4f4e-9eab-5ca39afc8cc4"/>
+				<textElement>
+					<font size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{idCard}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="194" y="75" width="77" height="20" uuid="670e3f85-a950-4384-a15a-098a409321cc"/>
+				<textElement>
+					<font size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{idCardPage}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="55" y="75" width="83" height="20" uuid="0b5447c8-09a4-4bc0-a717-72969e43cb9d"/>
+				<textElement>
+					<font size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{phone}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="374" y="107" width="100" height="20" uuid="faef49e9-30d4-4e2b-9da3-6d3017735801"/>
+				<textElement textAlignment="Right">
+					<font size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{currAddr}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="245" y="107" width="62" height="20" uuid="2e97bdf5-1901-4c2c-95e8-318d5ecd5fe9"/>
+				<textElement textAlignment="Right">
+					<font size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{currCity}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="111" y="107" width="61" height="20" uuid="8e8f1ae6-6c43-495e-8445-b46a31be8b22"/>
+				<textElement textAlignment="Right">
+					<font size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{currProv}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="107" width="44" height="20" uuid="64cc1290-db49-44d1-a079-f9a7fedaa0a0"/>
+				<textElement textAlignment="Right">
+					<font size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{currCountry}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="378" y="139" width="95" height="20" uuid="4b4cd5cb-e480-4e7f-bb2e-3801456558ff"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$P{perAddr}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="245" y="139" width="67" height="20" uuid="01d3eebb-a745-4542-b70e-f7428607f59b"/>
+				<textElement textAlignment="Right">
+					<font size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{perCity}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="121" y="139" width="60" height="20" uuid="d4d9e138-a73c-4663-b9b6-76fb9baccf50"/>
+				<textElement textAlignment="Right">
+					<font size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{perProv}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="139" width="55" height="20" uuid="5f4741c1-22f0-4be2-b5ec-2931fd4b1949"/>
+				<textElement textAlignment="Right">
+					<font size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{perCountry}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="473" y="245" width="69" height="20" uuid="a064aba0-0bfa-4007-8547-7ce2fee11041"/>
+				<textElement>
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[د څانګې نوم :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="288" y="245" width="81" height="20" uuid="38bbbc49-82e5-4a94-a9a8-6c5d9632009f"/>
+				<textElement>
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[د شاملیدو نیټه :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="91" y="245" width="81" height="20" uuid="b57bd778-7841-49f6-b7aa-34754a9bafd9"/>
+				<textElement>
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[د شاملیدو نیټه :]]></text>
 			</staticText>
 		</band>
 	</detail>

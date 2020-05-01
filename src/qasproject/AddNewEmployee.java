@@ -979,7 +979,22 @@ public class AddNewEmployee extends javax.swing.JFrame {
             // TODO add your handling code here:
             JasperDesign jd=JRXmlLoader.load("C:\\Users\\tahab\\Documents\\NetBeansProjects\\QASProject\\src\\qasproject\\employeeDetails.jrxml");
             HashMap<String, Object> hm=new HashMap<>();
-            hm.put("empNum",name.getText());
+            hm.put("name",name.getText());
+            hm.put("fatherName",fName.getText());
+            hm.put("grandFather",gfName.getText());
+            hm.put("idCard",idCard.getText());
+            hm.put("idCardPage",idPage.getText());
+            hm.put("phone",phoneNum.getText());
+            hm.put("currAddr",cAddr.getText());
+            hm.put("currCity",cCity.getText());
+            hm.put("currProv",cProvince.getText());
+            hm.put("currCountry",cCountry.getText());
+            
+            hm.put("perAddr",pAddr.getText());
+            hm.put("perCity",pCity.getText());
+            hm.put("perProv",pProvince.getText());
+            hm.put("perCountry",pCountry.getText());
+            
             
             System.out.println(hm.get("empNum"));
             
