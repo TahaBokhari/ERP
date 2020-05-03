@@ -217,7 +217,7 @@ public class viewEmployees extends javax.swing.JFrame {
             ResultSet rs= null;
             
             
-            String sql="SELECT employeeId AS Employee_ID,name AS Name,fatherName AS Father_Name,idCardNum AS ID_Card,idCardPageNum AS ID_Card_Page ,conatctNum AS Phone_Number ,currAddress AS Current_Address,currCity AS Current_City,currProvince AS Current_Province,currCountry AS Current_Country,department As Department,dateJoined AS Joining Date,empStatus AS Status,salaryAmount AS Salary From employees";
+            String sql="SELECT employeeId AS Employee_ID,name AS Name,fatherName AS Father_Name,idCardNum AS ID_Card,idCardPageNum AS ID_Card_Page,conatctNum AS Phone_Number ,currAddress AS Current_Address,currCity AS Current_City,currProvince AS Current_Province,currCountry AS Current_Country,department As Department,dateJoined AS Joining_Date,empStatus AS Status,salaryAmount AS Salary From employees";
             
 //        String sql="SELECT supplier, material, itemCode,itemDescription,quantity from gateInward WHERE serialNumber ='"+inwardSerial+"' ";
             

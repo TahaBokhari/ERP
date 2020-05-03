@@ -49,6 +49,8 @@ public class salarySheet extends javax.swing.JFrame {
         buttonGroup1.add(selectEmpRadio);
         buttonGroup1.add(allEmpRadio);
         
+        empCombo.setEnabled(false);
+        
         Calendar cal = Calendar.getInstance();
         jMonthChooser.setMonth(cal.get(Calendar.MONTH));
         jMonthChooser.setEnabled(false);
@@ -265,6 +267,11 @@ public class salarySheet extends javax.swing.JFrame {
         jLabel2.setText("Month :");
 
         allEmpRadio.setText("All Employees");
+        allEmpRadio.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                allEmpRadioActionPerformed(evt);
+            }
+        });
 
         selectEmpRadio.setText("Select Employee");
         selectEmpRadio.addActionListener(new java.awt.event.ActionListener() {
@@ -409,7 +416,10 @@ public class salarySheet extends javax.swing.JFrame {
     private void generateSalaryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_generateSalaryActionPerformed
         // TODO add your handling code here:
         
-        String sql="Select E.employeeId AS EMP_ID, E.name AS EMP_Name,E.department AS Department, (E.salaryAmount/DAY(LAST_DAY(CURDATE()))) AS Per_Day_Salary, count(A.employeeId)AS Working_Days,(E.salaryAmount/DAY(LAST_DAY(CURDATE())))*count(A.employeeId) AS Calculated_Salary,DAY(LAST_DAY(CURDATE())) AS Previous_Deduction,(E.salaryAmount/DAY(LAST_DAY(CURDATE())))*count(A.employeeId) AS Net_Salary From employees AS E inner join attendance AS A on E.employeeId=A.employeeId Where MONTH(A.attendanceDate)=MONTH(CURDATE()) AND YEAR(A.attendanceDate)=YEAR(CURDATE()) AND A.status='Present' GROUP BY A.employeeId ";
+    if(allEmpRadio.isSelected()==true && selectEmpRadio.isSelected()==false)
+    {
+        
+        String sql="Select E.employeeId AS EMP_ID, E.name AS EMP_Name,E.department AS Department, (E.salaryAmount/DAY(LAST_DAY(CURDATE()))) AS Per_Day_Salary, count(A.employeeId)AS Working_Days,(E.salaryAmount/DAY(LAST_DAY(CURDATE())))*count(A.employeeId) AS Calculated_Salary, DAY(LAST_DAY(CURDATE())) AS Previous_Deduction,(E.salaryAmount/DAY(LAST_DAY(CURDATE())))*count(A.employeeId) AS Net_Salary From employees AS E inner join attendance AS A on E.employeeId=A.employeeId Where MONTH(A.attendanceDate)=MONTH(CURDATE()) AND YEAR(A.attendanceDate)=YEAR(CURDATE()) AND A.status='Present' GROUP BY A.employeeId ";
         Statement stmt;
         ResultSet rs= null;
         try{
@@ -440,11 +450,57 @@ public class salarySheet extends javax.swing.JFrame {
             //itemTable.setValueAt(0, i, 7);
         }
         
+    }
+       
+    else if(allEmpRadio.isSelected()==false && selectEmpRadio.isSelected()==true)
+    { 
+        String EId=empCombo.getSelectedItem().toString();
+        EId=EId.substring(EId.indexOf(" ")+2, EId.length());
+        
+//        System.out.println("Start "+EId);
+//        System.out.println(EId);
+        System.out.println(EId);
+        //EId=EId.s
+        
+        String sql="Select E.employeeId AS EMP_ID, E.name AS EMP_Name,E.department AS Department, (E.salaryAmount/DAY(LAST_DAY(CURDATE()))) AS Per_Day_Salary, count(A.employeeId)AS Working_Days,(E.salaryAmount/DAY(LAST_DAY(CURDATE())))*count(A.employeeId) AS Calculated_Salary,DAY(LAST_DAY(CURDATE())) AS Previous_Deduction,(E.salaryAmount/DAY(LAST_DAY(CURDATE())))*count(A.employeeId) AS Net_Salary From employees AS E inner join attendance AS A on E.employeeId=A.employeeId Where E.employeeId='"+EId+"' AND MONTH(A.attendanceDate)=MONTH(CURDATE()) AND YEAR(A.attendanceDate)=YEAR(CURDATE()) AND A.status='Present' GROUP BY A.employeeId ";
+        Statement stmt;
+        ResultSet rs= null;
+        try{
+         stmt=conn.createStatement();
+         rs=stmt.executeQuery(sql);
+         
+         System.out.println("in rs");
+        }
+        catch(Exception e)
+        {
+            System.out.println(e.getMessage());
+            
+        }
+        
+        double val=0.0;
+        BigDecimal a=new BigDecimal(val); 
+        
+        
+            
+            //int totalDays=(Integer) itemTable.getValueAt(0, 6);
+        
+        
+        itemTable.setModel(DbUtils.resultSetToTableModel(rs));
+        
+        
+        
+        for(int i=0;i<itemTable.getRowCount();i++)
+        {
+            itemTable.setValueAt(a, i, 6);
+            //itemTable.setValueAt(0, i, 7);
+        }
+    } 
         
     }//GEN-LAST:event_generateSalaryActionPerformed
 
     private void selectEmpRadioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_selectEmpRadioActionPerformed
         // TODO add your handling code here:
+        empCombo.setEnabled(true);
     }//GEN-LAST:event_selectEmpRadioActionPerformed
 
     private void itemTableKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_itemTableKeyPressed
@@ -468,7 +524,13 @@ public class salarySheet extends javax.swing.JFrame {
         itemTable.setValueAt(netSalary, row, 7);
 //        //itemTable.setV
         
+        
     }//GEN-LAST:event_itemTableKeyPressed
+
+    private void allEmpRadioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_allEmpRadioActionPerformed
+        // TODO add your handling code here:empCombo
+        empCombo.setEnabled(false);
+    }//GEN-LAST:event_allEmpRadioActionPerformed
 
     /**
      * @param args the command line arguments

@@ -995,6 +995,25 @@ public class AddNewEmployee extends javax.swing.JFrame {
             hm.put("perProv",pProvince.getText());
             hm.put("perCountry",pCountry.getText());
             
+            hm.put("depName",deptCombo.getSelectedItem().toString());   
+            hm.put("joinDate",dateJoin.getDate().toString());
+            hm.put("designation",design.getText());
+            hm.put("salary",pay.getText());
+            hm.put("status",statusCombo.getSelectedItem().toString());
+            
+            hm.put("sName",sName.getText());
+            hm.put("sfName",sfName.getText());
+            hm.put("sgfName",sgfName.getText());
+            hm.put("sId",sIdCard.getText());
+            hm.put("sIdPage",sIdPage.getText());
+            hm.put("sPhone",sPhoneNum.getText());
+            hm.put("sAddr",sAddr.getText());
+            hm.put("sCity",sCity.getText());
+            hm.put("sProv",sProvince.getText());
+            hm.put("sCountry",sCountry.getText());
+            hm.put("pBy",preparedBy.getText());
+            
+            
             
             System.out.println(hm.get("empNum"));
             
