@@ -1,0 +1,485 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package qasproject;
+
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import net.proteanit.sql.DbUtils;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.design.JRDesignQuery;
+import net.sf.jasperreports.engine.design.JasperDesign;
+import net.sf.jasperreports.engine.xml.JRXmlLoader;
+import net.sf.jasperreports.view.JasperViewer;
+import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
+
+/**
+ *
+ * @author tahab
+ */
+public class savedEmployee extends javax.swing.JFrame {
+
+    /**
+     * Creates new form savedGateInward
+     */
+    Connection conn=null;
+    DefaultTableModel dtm = new DefaultTableModel();
+    ArrayList <String> employees=new ArrayList();
+    public savedEmployee() throws SQLException {
+        initComponents();
+        
+        this.setTitle("Print Gate Inward");
+        conn=DBconnection.connectDb();
+        
+        preparedBy.setText(QASProject.userName);
+        
+        populateEmployees();
+        empCombo.setSelectedItem(" ");
+        
+        this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        
+        this.addWindowListener(new WindowAdapter() {
+            
+            public void windowClosing(WindowEvent e) {
+            int confirmed = JOptionPane.showConfirmDialog(null, 
+            "Do you want to close the program?", "Exit Program Message Box",
+            JOptionPane.YES_NO_OPTION);
+
+        if (confirmed == JOptionPane.YES_OPTION) {
+          String role=QASProject.userrole;
+        
+                    if(role.equals("Admin"))
+                    {
+                        adminHome obj=new adminHome();
+                        obj.setVisible(true);
+                        dispose();
+
+                    }
+                    
+                    //manager
+                    else if(role.equals("Manager"))
+                    {
+                        ManagerHome obj=new ManagerHome();
+                        obj.setVisible(true);
+                        dispose();
+
+                    }
+                    
+                     //gateKeeper
+                    else if(role.equals("Gate Keeper"))
+                    {
+                        gateKeeperHome obj=new gateKeeperHome();
+                        obj.setVisible(true);
+                        dispose();
+
+                    }
+                    //store Incharge
+                    else if(role.equals("Store Incharge"))
+                    {
+                        storeInchargeHome obj=new storeInchargeHome();
+                        obj.setVisible(true);
+                        dispose();
+
+                    }
+                    
+                    //finished goods store incharge
+                    else if(role.equals("Warehouse Incharge"))
+                    {
+                        FinishedStoreInchargeHome obj=new FinishedStoreInchargeHome();
+                        obj.setVisible(true);
+                        dispose();
+                    }
+          //main menu
+        }
+  }
+});
+        
+    }
+    
+    private void populateEmployees() throws SQLException
+    {
+        Statement stmt;
+        ResultSet rs= null;
+        String sql="Select distinct (employeeId),name From employees";
+        
+        try{
+         stmt=conn.createStatement();
+         rs=stmt.executeQuery(sql);
+        }
+        catch(Exception e)
+        {
+            System.out.println(e.getMessage());
+            
+        }
+        while(rs.next())
+        {
+            String emp=rs.getString(2)+"  "+rs.getString(1);
+            employees.add(emp);
+        }
+        
+//        employees.add("ali  EMP-0002");
+//        employees.add("farooq  EMP-0003");
+        
+        DefaultComboBoxModel model2 = new DefaultComboBoxModel(employees.toArray());
+        empCombo.setModel( model2);
+        
+        empCombo.setSelectedItem(" ");
+        AutoCompleteDecorator.decorate(empCombo);
+        
+    }
+
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
+     */
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+
+        jPanel2 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        Logout = new javax.swing.JButton();
+        Home = new javax.swing.JButton();
+        search = new javax.swing.JButton();
+        empCombo = new javax.swing.JComboBox();
+        jLabel43 = new javax.swing.JLabel();
+        preparedBy = new javax.swing.JTextField();
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
+
+        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel1.setText("Select Employee :");
+
+        Logout.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        Logout.setText("Log out / وتل");
+        Logout.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                LogoutActionPerformed(evt);
+            }
+        });
+
+        Home.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        Home.setText("Home / کور");
+        Home.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                HomeActionPerformed(evt);
+            }
+        });
+
+        search.setText("Search / لټون");
+        search.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                searchActionPerformed(evt);
+            }
+        });
+
+        empCombo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        jLabel43.setText("Prepared by:");
+
+        preparedBy.setEditable(false);
+        preparedBy.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                preparedByActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGap(31, 31, 31)
+                                .addComponent(jLabel1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(empCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(search, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(jLabel43, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(preparedBy, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(46, 46, 46))
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(Home, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(Logout)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(Logout)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(Home)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 72, Short.MAX_VALUE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(empCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(search))
+                .addGap(127, 127, 127)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel43, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(preparedBy, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
+        );
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        pack();
+        setLocationRelativeTo(null);
+    }// </editor-fold>//GEN-END:initComponents
+
+    private void LogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LogoutActionPerformed
+        // TODO add your handling code here:
+        login obj=new login();
+        obj.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_LogoutActionPerformed
+
+    private void HomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_HomeActionPerformed
+        // TODO add your handling code here:
+        String role=QASProject.userrole;
+
+        if(role.equals("Admin"))
+        {
+            adminHome obj=new adminHome();
+            obj.setVisible(true);
+            this.dispose();
+
+        }
+
+        //manager
+        else if(role.equals("Manager"))
+        {
+            ManagerHome obj=new ManagerHome();
+            obj.setVisible(true);
+            this.dispose();
+
+        }
+
+        //gateKeeper
+        else if(role.equals("Gate Keeper"))
+        {
+            gateKeeperHome obj=new gateKeeperHome();
+            obj.setVisible(true);
+            this.dispose();
+
+        }
+        //store Incharge
+        else if(role.equals("Store Incharge"))
+        {
+            storeInchargeHome obj=new storeInchargeHome();
+            obj.setVisible(true);
+            this.dispose();
+
+        }
+
+        //finished goods store incharge
+        else if(role.equals("Warehouse Incharge"))
+        {
+            FinishedStoreInchargeHome obj=new FinishedStoreInchargeHome();
+            obj.setVisible(true);
+            this.dispose();
+        }
+
+    }//GEN-LAST:event_HomeActionPerformed
+
+    private void searchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchActionPerformed
+        // TODO add your handling code here:
+        
+        //int inwardSerial=Integer.parseInt(serialNumber.getText().toString());
+        String eId=empCombo.getSelectedItem().toString();
+        eId=eId.substring(eId.indexOf(" ")+2, eId.length());
+        
+        Statement stmt;
+        ResultSet rs= null;
+
+        
+        //String sql="SELECT g.serialNumber,g.dateOpened,g.purchaser,g.supplier, g.material, g.itemCode,i.itemDescription,i.itemUnit,g.quantity, g.approvedBy from gateInward AS g inner join ItemType AS i on g.itemCode=i.itemBarcode WHERE g.serialNumber ='"+inwardSerial+"' ";
+
+        String sql="Select * From employees Where employeeId='"+eId+"' ";
+//        String sql="SELECT supplier, material, itemCode,itemDescription,quantity from gateInward WHERE serialNumber ='"+inwardSerial+"' ";
+
+        try
+        {
+            stmt=conn.createStatement();
+            rs=stmt.executeQuery(sql);
+        }
+        catch(Exception e)
+        {
+            System.out.println(e.getMessage());
+
+        }
+        try {
+            //rs.getString(sql)
+            if(rs.next())
+            {
+                try {
+                    // TODO add your handling code here:
+                    JasperDesign jd=JRXmlLoader.load("C:\\Users\\tahab\\Documents\\NetBeansProjects\\QASProject\\src\\qasproject\\employeeDetails.jrxml");
+                    HashMap<String, Object> hm=new HashMap<>();
+                    hm.put("name",rs.getString("name"));
+                    hm.put("fatherName",rs.getString("fatherName"));
+                    hm.put("grandFather",rs.getString("grandfatherName"));
+                    hm.put("idCard",rs.getString("idCardNum"));
+                    hm.put("idCardPage",rs.getString("idCardPageNum"));
+                    hm.put("phone",rs.getString("conatctNum"));
+                    hm.put("currAddr",rs.getString("currAddress"));
+                    hm.put("currCity",rs.getString("currCity"));
+                    hm.put("currProv",rs.getString("currProvince"));
+                    hm.put("currCountry",rs.getString("currCountry"));
+                    
+                    hm.put("perAddr",rs.getString("perAddress"));
+                    hm.put("perCity",rs.getString("perCity"));
+                    hm.put("perProv",rs.getString("perProvince"));
+                    hm.put("perCountry",rs.getString("perCountry"));
+                    
+                    
+                    hm.put("depName",rs.getString("department"));
+                    hm.put("joinDate",rs.getDate("dateJoined").toString());
+                    hm.put("designation",rs.getString("designation"));
+                    hm.put("salary",Integer.toString(rs.getInt("salaryAmount"))); //rs.getInt("salaryAmount")
+                    hm.put("status",rs.getString("empStatus"));
+                    
+                    hm.put("sName",rs.getString("secName"));
+                    hm.put("sfName",rs.getString("secFatherName"));
+                    hm.put("sgfName",rs.getString("secGrandfatherName"));
+                    hm.put("sId",rs.getString("secIdCardNum"));
+                    hm.put("sIdPage",rs.getString("secIdCardPageNum"));
+                    hm.put("sPhone",rs.getString("secConatctNum"));
+                    hm.put("sAddr",rs.getString("secCurrAddress"));
+                    hm.put("sCity",rs.getString("secCurrCity"));
+                    hm.put("sProv",rs.getString("secCurrProvince"));
+                    hm.put("sCountry",rs.getString("secCurrCountry"));
+                    hm.put("pBy",preparedBy.getText());
+                    
+                    
+                    
+                    System.out.println(hm.get("empNum"));
+                    
+                    
+                    //String sql="SELECT employeeId From employees";
+                    JRDesignQuery newQuery=new JRDesignQuery();
+                    newQuery.setText(sql);
+                    jd.setQuery(newQuery);
+                    
+                    JasperReport jr=JasperCompileManager.compileReport(jd);
+                    JasperPrint jp=JasperFillManager.fillReport(jr, hm, conn);
+                    JasperViewer.viewReport(jp);
+                    
+                     
+                    
+                } catch (JRException ex) {
+                    Logger.getLogger(AddNewEmployee.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(savedEmployee.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        
+        
+        
+        
+        
+        
+        
+    }//GEN-LAST:event_searchActionPerformed
+
+    private void preparedByActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_preparedByActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_preparedByActionPerformed
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(savedEmployee.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(savedEmployee.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(savedEmployee.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(savedEmployee.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
+        //</editor-fold>
+
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                try {
+                    new savedEmployee().setVisible(true);
+                } catch (SQLException ex) {
+                    Logger.getLogger(savedEmployee.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        });
+    }
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton Home;
+    private javax.swing.JButton Logout;
+    private javax.swing.JComboBox empCombo;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel43;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JTextField preparedBy;
+    private javax.swing.JButton search;
+    // End of variables declaration//GEN-END:variables
+}

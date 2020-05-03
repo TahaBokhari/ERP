@@ -323,7 +323,7 @@
 				<text><![CDATA[ډیزاین :]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="473" y="277" width="69" height="20" uuid="c414ee3d-18e0-4279-9440-1b06127b6db6"/>
+				<reportElement x="505" y="277" width="37" height="20" uuid="c414ee3d-18e0-4279-9440-1b06127b6db6"/>
 				<textElement textAlignment="Right">
 					<font size="14" isBold="true"/>
 				</textElement>
@@ -407,7 +407,7 @@
 				<text><![CDATA[اوسنی هیواد :]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="374" y="245" width="100" height="20" uuid="b87ea01b-0d25-4c09-9b38-691c9982b372"/>
+				<reportElement x="378" y="245" width="81" height="20" uuid="b87ea01b-0d25-4c09-9b38-691c9982b372"/>
 				<textElement textAlignment="Right">
 					<font size="11"/>
 				</textElement>
@@ -423,11 +423,13 @@
 				<textFieldExpression><![CDATA[$P{designation}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="393" y="277" width="81" height="20" uuid="7db8f8e5-f5ab-4466-b5bf-ddea3f5aab13"/>
+				<reportElement x="399" y="277" width="94" height="20" uuid="7db8f8e5-f5ab-4466-b5bf-ddea3f5aab13"/>
+				<textElement textAlignment="Right"/>
 				<textFieldExpression><![CDATA[$P{salary}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="171" y="277" width="100" height="20" uuid="6da8e199-ae83-4051-a2c7-1c3f5392730c"/>
+				<reportElement x="194" y="277" width="69" height="20" uuid="6da8e199-ae83-4051-a2c7-1c3f5392730c"/>
+				<textElement textAlignment="Right"/>
 				<textFieldExpression><![CDATA[$P{status}]]></textFieldExpression>
 			</textField>
 			<textField>
